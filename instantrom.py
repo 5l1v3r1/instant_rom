@@ -3,6 +3,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 class InstantRom:
     def __init__(self, proxy=None):
         self._proxy = self.setup_proxy(proxy)
