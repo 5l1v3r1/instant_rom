@@ -59,7 +59,7 @@ class InstantRom:
             if i % 10 == 0 and i != 0:
                 prompt = input('> ')
                 if prompt.isnumeric():
-                    return roms[int(prompt)]  # This will be a return function
+                    return 'http://www.emuparadise.me' + roms[int(prompt)].find('a')['href']
 
 
 if __name__ == '__main__':
