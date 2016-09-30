@@ -18,37 +18,6 @@ class InstantRom:
             return None
         return {'http': 'http://' + proxy, 'https': 'https://' + proxy}
 
-#    def select_console(self):
-#        main_menu = []
-#        r = self._session.get('http://www.emuparadise.me/roms-isos-games.php')
-#        soup = BeautifulSoup(r.content, 'html.parser')
-#        main_menu.append(soup.find(id='console'))
-#        main_menu.append(soup.find(id='arcade'))
-#        main_menu.append(soup.find(id='handheld'))
-#        main_menu.append(soup.find(id='computer'))
-#        main_menu.append(soup.find(id='other'))
-#        for i, codeblock in enumerate(main_menu):
-#           print('{} {}'.format(i, codeblock.find('h2').get_text().strip()))
-#        prompt = int(input('> '))
-#        links = main_menu[prompt].findAll('a')
-#        for i, link in enumerate(links):
-#            print('[{}] {}'.format(i, link.get_text()))
-#        prompt = int(input('> '))
-#        url = 'http://www.emuparadise.me{}'.format(links[prompt]['href'])
-#        print(url)
-#        r = self._session.get(url)
-#        sys_id = ''
-#        try:
-#            sys_id = re.search(r'[/][0-9]+', url).group().replace('/', '')
-#        except Exception as e:
-#            print(e)
-#            sys_id = None
-#        if sys_id is None:  # failsafe
-#            string = BeautifulSoup(r.content, 'html.parser').findAll(align='center')[1].find('a')['href']
-#            sys_id = re.search(r'[/][0-9]+', string).group().replace('/', '')
-#        print(sys_id)
-#        return sys_id
-
 
     def search(self, query=input('Enter your query\n> ')):
         url = 'http://www.emuparadise.me/roms/search.php?query={}&section=roms'.format(query)
