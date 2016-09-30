@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import re
+import shutil
 
 import requests
 from bs4 import BeautifulSoup
@@ -35,16 +36,16 @@ class InstantRom:
                 if 'q' in prompt:
                     print('quiting')
                     raise SystemExit
+                if 'n' in prompt:
+                    break
                 if prompt.isnumeric():
                     url = 'http://www.doperoms.com/' + roms[int(prompt)]['href']
-                    print(url)
                     r = self._session.get(url)
                     url = 'http://www.doperoms.com' + BeautifulSoup(r.content, 'html.parser').center.find('a')['href']
-                    print(url)
                     r = requests.get(url)
                     url = BeautifulSoup(r.content, 'html.parser').find(style='padding:15px; width: 400px; border:1px dashed #000000;').findAll('a')[1]['href']
                     result_name = roms[int(prompt)].get_text()
-                    results.append('http://www.doperoms.com{}|{}'.format(url, result_name))
+                    results.append(tuple('http://www.doperoms.com{}' + url, result_name))
         return results
 
     def download(self, url, filename):
@@ -57,10 +58,7 @@ class InstantRom:
     def queue(self):
         q = self.search()
         for i in q:
-            i = i.split('|')
             self.download(i[0], i[1])
 
 if __name__ == '__main__':
-    bot = InstantRom()
-    x = bot.search()
-    print(x)
+    InstantRom().queue()
