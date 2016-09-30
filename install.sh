@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#pip install -r requirements.txt
+pip install -r requirements.txt
 
 echo 'would you like to install the man page? [1/2]'
 select yn in "Yes" "No"; do
