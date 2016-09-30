@@ -1,4 +1,4 @@
-# Rom Downloader
+# 🎮 Rom Downloader
 
 # TODO
 * Automatically Unzip and delete archive
