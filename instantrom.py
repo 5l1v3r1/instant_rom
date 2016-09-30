@@ -26,14 +26,23 @@ class InstantRom:
             if rom.get_text() == '':
                 del(roms[i])
         for i, rom in enumerate(roms):
-            print('[{}] {} | {}'.format(i, rom.get_text(), rom.find_next().find_next().get_text()))  # TODO: make this prettier
+            rom_name = rom.get_text()
+            system = rom.find_next().find_next().get_text()
+            print('[{}] {} | {}'.format(i, system, rom_name))
             if i % 10 == 0 and i != 0:
                 prompt = input('> ')
                 if 'q' in prompt:
                     print('quiting')
                     raise SystemExit
                 if prompt.isnumeric():
-                    return 'http://www.doperoms.com/' + roms[int(prompt)]['href']
+                    url = 'http://www.doperoms.com/' + roms[int(prompt)]['href']
+                    print(url)
+                    r = self._session.get(url)
+                    url = 'http://www.doperoms.com' + BeautifulSoup(r.content, 'html.parser').center.find('a')['href']
+                    print(url)
+                    r = requests.get(url)
+                    url = BeautifulSoup(r.content, 'html.parser').find(style='padding:15px; width: 400px; border:1px dashed #000000;').findAll('a')[1]['href']
+                    return 'http://www.doperoms.com' + url
 
     def download(self, url):
         r = self._session.get(url)
