@@ -19,6 +19,7 @@ class InstantRom:
         return {'http': 'http://' + proxy, 'https': 'https://' + proxy}
 
     def search(self, query=input('Enter your query\n> ')):
+        results = []
         url = 'http://www.doperoms.com/search.php?s={}&method=ROM+SEARCH'.format(query)
         r = self._session.get(url)
         roms = BeautifulSoup(r.content, 'html.parser').findAll(id='listing')
@@ -42,11 +43,22 @@ class InstantRom:
                     print(url)
                     r = requests.get(url)
                     url = BeautifulSoup(r.content, 'html.parser').find(style='padding:15px; width: 400px; border:1px dashed #000000;').findAll('a')[1]['href']
-                    return 'http://www.doperoms.com' + url
+                    result_name = roms[int(prompt)].get_text()
+                    results.append('http://www.doperoms.com{}|{}'.format(url, result_name))
+        return results
 
-    def download(self, url):
+    def download(self, url, filename):
         r = self._session.get(url)
+        with open(filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:  # filter out keep-alive new chunks
+                    f.write(chunk)
 
+    def queue(self):
+        q = self.search()
+        for i in q:
+            i = i.split('|')
+            self.download(i[0], i[1])
 
 if __name__ == '__main__':
     bot = InstantRom()
